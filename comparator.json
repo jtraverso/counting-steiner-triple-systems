@@ -1,0 +1,32 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "CountingSTS.N_le_D",
+    "CountingSTS.D_le_factorial_mul_N",
+    "CountingSTS.theorem1",
+    "CountingSTS.lemma3",
+    "CountingSTS.lemma4",
+    "CountingSTS.lemma5_i",
+    "CountingSTS.lemma5_ii",
+    "CountingSTS.lemma5_iii",
+    "CountingSTS.theorem2",
+    "CountingSTS.theorem2_vdW",
+    "CountingSTS.theorem3",
+    "CountingSTS.theorem3_vdW",
+    "CountingSTS.theorem4_i",
+    "CountingSTS.theorem4_ii",
+    "CountingSTS.theorem4_iii",
+    "CountingSTS.sts_upper_bound_explicit",
+    "CountingSTS.theorem_1_1",
+    "CountingSTS.oneFactorization_upper_bound_explicit",
+    "CountingSTS.theorem_1_2"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

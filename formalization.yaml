@@ -1,0 +1,225 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Counting Steiner triple systems: Wilson (1974) and Linial–Luria (2013)"
+  description: >-
+    A complete Lean 4 / Mathlib formalization of R. M. Wilson's "Nonisomorphic Steiner triple
+    systems" (inequality (2.1), Theorems 1–4, Lemmas 3–5, including the exact numbers of Latin
+    squares of orders 6, 7 and 8 and the bounds N(19) ≥ 2450, N(21) ≥ 2160980,
+    N(25) ≥ 163929929318400) and of N. Linial and Z. Luria's "An upper bound on the number of
+    Steiner triple systems" (Theorems 1.1 and 1.2 with explicit error terms). The parts of
+    Wilson's Theorems 2 and 3 that rely on the van der Waerden permanent conjecture are stated
+    with that conjecture as an explicit hypothesis, as in the paper. Finite computations are
+    kernel-checked certificates (no native_decide). Mathlib does not contain these results.
+  authors:
+    - "Juan Pablo Traverso Gianini"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Juan Pablo Traverso Gianini"
+
+classification:
+  arxiv: ["math.CO"]
+  msc2020: ["05B07", "05B15", "05A16"]
+
+sources:
+  - title: "Nonisomorphic Steiner triple systems"
+    authors:
+      - "R. M. Wilson"
+    id: "doi:10.1007/BF01215371"
+    type: "paper"
+    location: "Mathematische Zeitschrift 135 (1974), 303–313"
+    relationship: "formalizes"
+    note: "Inequality (2.1), Theorems 1–4 and Lemmas 1–6."
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+  - title: "An upper bound on the number of Steiner triple systems"
+    authors:
+      - "N. Linial"
+      - "Z. Luria"
+    id: "doi:10.1002/rsa.20487"
+    type: "paper"
+    location: "Random Structures & Algorithms 43 (2013), 399–406"
+    relationship: "formalizes"
+    note: "Theorems 1.1 and 1.2 (entropy method)."
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+  - title: "Embeddings of Steiner triple systems"
+    authors:
+      - "J. Doyen"
+      - "R. M. Wilson"
+    id: "doi:10.1016/0012-365X(73)90139-8"
+    type: "paper"
+    location: "Discrete Mathematics 5 (1973), 229–239"
+    relationship: "background"
+    note: "Cited by Wilson for Lemma 4; here Lemma 4 is proved from the construction and explicit systems."
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+  - title: "The number of latin squares of order eight"
+    authors:
+      - "M. B. Wells"
+    id: "doi:10.1016/S0021-9800(67)80021-8"
+    type: "paper"
+    location: "Journal of Combinatorial Theory 3 (1967), 98–99"
+    relationship: "background"
+    note: "The value of L(8) quoted by Wilson; here proved by a kernel-checked certificate."
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+
+status:
+  scope: >-
+    All numbered results of Wilson's paper are proved (Theorem 1; Theorems 2 and 3, with their
+    van der Waerden parts as implications from an explicit vdWPC hypothesis; Theorem 4; Lemmas
+    3–5 and inequality (2.1)), and Theorems 1.1 and 1.2 of Linial–Luria with explicit error
+    terms. Theorem 3 carries the harmless extra hypothesis ε < 3^{-3/2} e^{-2} (the paper takes ε
+    small). Linial–Luria's Conjecture 1.3 (open) and Keevash's proof of Wilson's conjecture are
+    not stated as theorems.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: "autonomous"
+      models: ["Aristotle (Harmonic)"]
+      framework: "Aristotle CLI and web"
+      tool_setup: >-
+        From the PDFs of the two papers, Aristotle formalized Wilson's paper and then Linial–Luria
+        on top of it, first checking the finite computations with native_decide. At the author's
+        request it then replaced every native_decide by kernel-checked certificates with verified
+        checkers (bit-encoded Latin-square states with a symmetry reduction; pair-coverage
+        bitmasks for explicit systems), split into files of at most a few hundred lines, and fixed
+        the port to the pinned toolchain.
+      cost:
+        wall_time: "about one day of runs"
+        spend_usd: "not tracked"
+        hardware: "API-only"
+      prompting_notes: "The papers' PDFs and natural-language instructions."
+    - method: "agent"
+      models: ["Claude Opus 5.5"]
+      framework: "Claude Code (Anthropic)"
+      tool_setup: >-
+        Audit of the definitions and statements against the papers, identity checks of the main
+        statements across Aristotle's versions, migration of the Linial–Luria part to the pinned
+        toolchain, splitting the order-8 certificate into one kernel check per job (to bound
+        memory), a sequential memory-controlled local build, and the Palomar packaging, checked
+        with `lake build`, `#print axioms` and a comparison of the elaborated Challenge and
+        Solution declarations (Lean v4.35.0-rc3, Mathlib
+        c55e6e786f49471c72fbddbec5415808896aec1e).
+      cost:
+        wall_time: "about one day"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
+      prompting_notes: "Natural-language instructions in Spanish, directed by the author."
+  spend_usd: "subscription-based"
+  notes: >-
+    The papers were chosen by the human author; the Lean proofs are AI-generated and mechanically
+    verified (no `sorry`, no native_decide, axioms limited to propext, Classical.choice and
+    Quot.sound, identical elaborated types for the Challenge/Solution pair).
+
+fidelity:
+  divergences: >-
+    STS are families of 3-element Finsets of Fin v; N(v) is the cardinality of the quotient by
+    point permutations. F(n) counts proper (n−1)-edge-colourings of K_n, that is, ordered
+    1-factorizations; this is at least the number of unordered 1-factorizations, so the upper
+    bound of Theorem 1.2 implies the paper's. The van der Waerden permanent conjecture appears
+    only as the explicit hypothesis vdWPC (permanent of a doubly stochastic n×n matrix ≥ n!/n^n),
+    as in Wilson's paper, although it is now a theorem (Egorychev, Falikman). Theorem 3 has the
+    extra hypothesis ε < 3^{-3/2} e^{-2}. Lemma 4, which Wilson cites from Doyen–Wilson, is proved
+    here from the recursive construction and explicit systems.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "Claude Opus 5.5 (AI agent in Claude Code, acting for the author)"
+  notes: >-
+    Agent review by Claude Opus 5.5, distinct from the mechanical verification: the agent
+    compared every definition and main statement with the two papers, checked that the main
+    statements are identical across Aristotle's successive versions, and confirmed by a full
+    local `lake build`, `#print axioms` and a comparison of the fully elaborated Challenge and
+    Solution declarations that the proofs use no `sorry` and only propext, Classical.choice and
+    Quot.sound. The author directed the work. No independent human mathematical review has been
+    performed. The results are published; no mathematical novelty is claimed.
+
+alignment:
+  namespace: "CountingSTS"
+  statements:
+    - source: "Wilson (1974), inequality (2.1): N(v) ≤ D(v)"
+      lean: "CountingSTS.N_le_D"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), inequality (2.1): D(v) ≤ v! N(v)"
+      lean: "CountingSTS.D_le_factorial_mul_N"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Theorem 1"
+      lean: "CountingSTS.theorem1"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Lemma 3"
+      lean: "CountingSTS.lemma3"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Lemma 4"
+      lean: "CountingSTS.lemma4"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Lemma 5 (i): L(6)"
+      lean: "CountingSTS.lemma5_i"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Lemma 5 (ii): L(7)"
+      lean: "CountingSTS.lemma5_ii"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Lemma 5 (iii): L(8)"
+      lean: "CountingSTS.lemma5_iii"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Theorem 2 (unconditional part)"
+      lean: "CountingSTS.theorem2"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Theorem 2 (under the van der Waerden permanent conjecture)"
+      lean: "CountingSTS.theorem2_vdW"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Theorem 3 (unconditional part)"
+      lean: "CountingSTS.theorem3"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Theorem 3 (under the van der Waerden permanent conjecture)"
+      lean: "CountingSTS.theorem3_vdW"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Theorem 4 (i): N(19) ≥ 2450"
+      lean: "CountingSTS.theorem4_i"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Theorem 4 (ii): N(21) ≥ 2160980"
+      lean: "CountingSTS.theorem4_ii"
+      module: "Challenge"
+      status: "proved"
+    - source: "Wilson (1974), Theorem 4 (iii): N(25) ≥ 163929929318400"
+      lean: "CountingSTS.theorem4_iii"
+      module: "Challenge"
+      status: "proved"
+    - source: "Linial–Luria (2013), Theorem 1.1 (explicit form)"
+      lean: "CountingSTS.sts_upper_bound_explicit"
+      module: "Challenge"
+      status: "proved"
+    - source: "Linial–Luria (2013), Theorem 1.1"
+      lean: "CountingSTS.theorem_1_1"
+      module: "Challenge"
+      status: "proved"
+    - source: "Linial–Luria (2013), Theorem 1.2 (explicit form)"
+      lean: "CountingSTS.oneFactorization_upper_bound_explicit"
+      module: "Challenge"
+      status: "proved"
+    - source: "Linial–Luria (2013), Theorem 1.2"
+      lean: "CountingSTS.theorem_1_2"
+      module: "Challenge"
+      status: "proved"
+
+acknowledgements: >-
+  Mathlib and the Lean community; Harmonic's Aristotle.
