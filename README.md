@@ -5,7 +5,9 @@ Author and maintainer: **Juan Pablo Traverso Gianini**. Licence: Apache-2.0 (see
 A complete Lean 4 / Mathlib formalization of two papers on the number of Steiner triple systems
 (STS): R. M. Wilson, *Nonisomorphic Steiner triple systems* (1974), and N. Linial and Z. Luria,
 *An upper bound on the number of Steiner triple systems* (2013). All statements are in the
-namespace `CountingSTS` of `Challenge.lean`.
+namespace `CountingSTS` of `Challenge.lean`. Version 2 adds a proof of the van der Waerden
+permanent theorem (Egorychev, Falikman), so Wilson's sharper lower bounds hold unconditionally
+and the package has no hypotheses beyond Lean, Mathlib and the standard axioms.
 
 ## Definitions
 
@@ -14,8 +16,9 @@ namespace `CountingSTS` of `Challenge.lean`.
   points mapping the blocks onto the blocks); `D v`: the number of STS on the fixed set `Fin v`.
 * `L n`: the number of Latin squares of order `n`; `D7 v`: the number of STS on `Fin v`
   containing a fixed STS of order 7 on the points `0, …, 6`.
-* `vdWPC`: the van der Waerden permanent conjecture (used only as an explicit hypothesis, exactly
-  as in Wilson's paper).
+* `vdWPC`: the statement of the van der Waerden permanent conjecture: the permanent of a doubly
+  stochastic `n × n` matrix is at least `n!/n^n`. Wilson uses it as a hypothesis;
+  `van_der_waerden` proves it.
 * `F n`: the number of proper `(n − 1)`-edge-colourings of `K_n` (ordered 1-factorizations).
 
 ## Results
@@ -32,6 +35,17 @@ namespace `CountingSTS` of `Challenge.lean`.
 | `theorem2`, `theorem2_vdW` | Theorem 2: `N(v) ≥ (e^{-5} v)^{v²/12}`; exponent `v²/6` under `vdWPC` |
 | `theorem3`, `theorem3_vdW` | Theorem 3: `N(v) ≥ ((3^{-3/2} e^{-2} − ε) v)^{v²/12}` for large admissible `v` (`v²/6` under `vdWPC`) |
 | `theorem4_i`, `theorem4_ii`, `theorem4_iii` | Theorem 4: `N(19) ≥ 2450`, `N(21) ≥ 2160980`, `N(25) ≥ 163929929318400` |
+| `van_der_waerden` | The van der Waerden permanent theorem (Egorychev 1981, Falikman 1981): `vdWPC` holds |
+| `theorem2_full`, `theorem3_full` | Theorems 2 and 3 with exponent `v²/6`, unconditionally: `N(v) ≥ (e^{-5} v)^{v²/6}` for admissible `v`, and `N(v) ≥ ((3^{-3/2} e^{-2} − ε) v)^{v²/6}` for large admissible `v` |
+
+The proof of `van_der_waerden` (`RequestProject/VanDerWaerden/`) follows Gurvits's argument
+as simplified by Laurent and Schrijver. It has four ingredients:
+
+* a one-variable inequality for real-rooted polynomials, proved by AM–GM;
+* real stability of `∏ᵢ (A z)ᵢ` and of its partial derivatives, which uses Mathlib's
+  Gauss–Lucas theorem and a closed monotonicity condition in place of Hurwitz's theorem;
+* a downward induction on the polynomials `q_k`, from `q_n = ∏ᵢ (A z)ᵢ` to `q_0 = per A`;
+* a limit `ε → 0` that removes the assumption that the entries are positive.
 
 **Linial–Luria (2013).**
 
@@ -77,13 +91,22 @@ systems of small orders used in Lemma 4 are checked the same way (`STSKernel.lea
   doi:10.1016/0012-365X(73)90139-8.
 * M. B. Wells, *The number of Latin squares of order eight*, J. Combin. Theory 3 (1967) 98–99,
   doi:10.1016/S0021-9800(67)80021-8.
+* G. P. Egorychev, *The solution of van der Waerden's problem for permanents*, Adv. Math. 42
+  (1981) 299–305, doi:10.1016/0001-8708(81)90044-X; D. I. Falikman, *Proof of the van der Waerden
+  conjecture regarding the permanent of a doubly stochastic matrix*, Math. Notes 29 (1981)
+  475–479, doi:10.1007/BF01163285.
+* L. Gurvits, *Van der Waerden/Schrijver–Valiant like conjectures and stable (aka hyperbolic)
+  homogeneous polynomials: one theorem for all*, Electron. J. Combin. 15 (2008) R66,
+  doi:10.37236/790; M. Laurent, A. Schrijver, *On Leonid Gurvits's proof for permanents*, Amer.
+  Math. Monthly 117 (2010) 903–911, doi:10.4169/000298910X523380.
 
 ## Authorship and use of AI
 
 The author chose the papers and directed the work. The formalization was produced by Harmonic's
 Aristotle from the papers (Wilson first, then Linial–Luria on top of it), with the finite
 computations first checked by `native_decide`; at the author's request Aristotle then replaced
-every `native_decide` by kernel-checked certificates. Claude (Claude Code) audited the statements,
+every `native_decide` by kernel-checked certificates. In version 2, Aristotle proved the van der
+Waerden permanent theorem. Claude (Claude Code) audited the statements,
 ported the project to the pinned toolchain, split the order-8 certificate into per-job kernel
 checks, rebuilt everything locally and prepared this package. Lean checks everything
 mechanically. See `formalization.yaml`.

@@ -28,6 +28,9 @@ squares of order `n`, and `F n` the number of proper `(n − 1)`-edge-colourings
   `v²/6` under the van der Waerden permanent conjecture (`vdWPC`, an explicit hypothesis).
 * Theorem 3, `theorem3` and `theorem3_vdW`: the asymptotic lower bounds with constant
   `3^{-3/2} e^{-2} − ε`.
+* `van_der_waerden`: the van der Waerden permanent conjecture `vdWPC` holds (Egorychev 1981,
+  Falikman 1981; proved following Gurvits as simplified by Laurent–Schrijver), hence
+  `theorem2_full` and `theorem3_full`: the bounds with exponent `v²/6` hold unconditionally.
 * Theorem 4, `theorem4_i`, `theorem4_ii`, `theorem4_iii`: `N(19) ≥ 2450`, `N(21) ≥ 2160980`,
   `N(25) ≥ 163929929318400`.
 
@@ -209,6 +212,24 @@ theorem theorem3_vdW (h : vdWPC) (ε : ℝ) (hε : 0 < ε)
     ∀ᶠ v : ℕ in atTop, Admissible v →
       (((3 : ℝ) ^ (-3 / 2 : ℝ) * Real.exp (-2) - ε) * v) ^ ((v : ℝ) ^ 2 / 6) ≤ N v :=
   STS.theorem3_vdW h ε hε hε'
+
+/-- **The van der Waerden permanent theorem** (Egorychev 1981, Falikman 1981): the permanent
+of a doubly stochastic `n × n` matrix is at least `n!/n^n`, i.e. `vdWPC` holds. -/
+theorem van_der_waerden : vdWPC :=
+  STS.van_der_waerden
+
+/-- **Theorem 2**, second part, unconditionally: `N(v) ≥ (e^{-5} v)^{v²/6}`. -/
+theorem theorem2_full (v : ℕ) (hv : Admissible v) :
+    (Real.exp (-5) * v) ^ ((v : ℝ) ^ 2 / 6) ≤ N v :=
+  STS.theorem2_full v hv
+
+/-- **Theorem 3**, second part (inequality (1.2)), unconditionally: for any `ε > 0` (small enough
+that the base is positive) and all sufficiently large admissible `v`,
+`N(v) ≥ ((3^{-3/2} e^{-2} - ε) v)^{v²/6}`. -/
+theorem theorem3_full (ε : ℝ) (hε : 0 < ε) (hε' : ε < (3 : ℝ) ^ (-3 / 2 : ℝ) * Real.exp (-2)) :
+    ∀ᶠ v : ℕ in Filter.atTop, Admissible v →
+      (((3 : ℝ) ^ (-3 / 2 : ℝ) * Real.exp (-2) - ε) * v) ^ ((v : ℝ) ^ 2 / 6) ≤ N v :=
+  STS.theorem3_full ε hε hε'
 
 /-- **Theorem 4 (i).** `N(19) ≥ 2450`. -/
 theorem theorem4_i : 2450 ≤ N 19 :=
