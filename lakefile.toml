@@ -14,12 +14,83 @@ rev = "v4.35.0-rc3"
 
 [[lean_lib]]
 name = "RequestProject"
-globs = ["RequestProject.+"]
+roots = []
+globs = [
+  "RequestProject.Analysis",
+  "RequestProject.Basic",
+  "RequestProject.Construction",
+  "RequestProject.Core",
+  "RequestProject.Defs",
+  "RequestProject.Explicit",
+  "RequestProject.ExplicitData",
+  "RequestProject.Flats",
+  "RequestProject.Hall",
+  "RequestProject.IsoCount",
+  "RequestProject.LL.Analysis",
+  "RequestProject.LL.Chain",
+  "RequestProject.LL.Estimates",
+  "RequestProject.LL.Expect",
+  "RequestProject.LL.Main",
+  "RequestProject.LL.OFExpect",
+  "RequestProject.LL.OFMain",
+  "RequestProject.LL.OFReveal",
+  "RequestProject.LL.Order",
+  "RequestProject.LL.STSExpect",
+  "RequestProject.LL.STSMain",
+  "RequestProject.LL.STSReveal",
+  "RequestProject.Latin",
+  "RequestProject.LatinCert6",
+  "RequestProject.LatinCert7",
+  "RequestProject.LatinCert8",
+  "RequestProject.LatinCompute",
+  "RequestProject.LatinCount",
+  "RequestProject.LatinData6",
+  "RequestProject.LatinData7",
+  "RequestProject.LatinData8",
+  "RequestProject.LatinJobs6_0",
+  "RequestProject.LatinJobs7_0",
+  "RequestProject.LatinJobs8_0",
+  "RequestProject.LatinJobs8_1",
+  "RequestProject.LatinJobs8_2",
+  "RequestProject.LatinJobs8_3",
+  "RequestProject.LatinJobs8_4",
+  "RequestProject.LatinJobs8_5",
+  "RequestProject.LatinKernel",
+  "RequestProject.LatinKernelSound",
+  "RequestProject.LatinRowSym",
+  "RequestProject.Lemma1",
+  "RequestProject.Lemma5",
+  "RequestProject.LowerBound",
+  "RequestProject.Main",
+  "RequestProject.NatBits",
+  "RequestProject.STSCount",
+  "RequestProject.STSKernel",
+  "RequestProject.SmallOrders",
+  "RequestProject.SmallSTS",
+  "RequestProject.SmallSTSData",
+  "RequestProject.T4Perm",
+  "RequestProject.T4Setup",
+  "RequestProject.Theorem4",
+  "RequestProject.Theorem4i",
+  "RequestProject.UpperBound",
+  "RequestProject.VanDerWaerden.Combinatorics",
+  "RequestProject.VanDerWaerden.Full",
+  "RequestProject.VanDerWaerden.Gurvits",
+  "RequestProject.VanDerWaerden.Stable",
+  "RequestProject.VanDerWaerden.Theorem",
+  "RequestProject.VanDerWaerden.Univariate",
+]
 
 [[lean_lib]]
 name = "Challenge"
-roots = ["Challenge"]
+roots = []
+globs = [
+  "Challenge",
+]
 
 [[lean_lib]]
 name = "Solution"
-roots = ["Solution"]
+roots = []
+globs = [
+  "Solution",
+]
