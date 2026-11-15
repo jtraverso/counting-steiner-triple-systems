@@ -1,5 +1,5 @@
 name = "counting_sts"
-leanLibDir = "../../../../cdr-iii-shared-lean"
+leanLibDir = "../../../../build/lib/lean"
 version = "0.1.0"
 defaultTargets = ["RequestProject", "Challenge", "Solution"]
 requiresModuleSystem = true
